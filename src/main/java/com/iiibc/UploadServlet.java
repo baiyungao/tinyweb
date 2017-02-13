@@ -1,6 +1,8 @@
 package com.iiibc;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -31,6 +33,7 @@ public class UploadServlet extends HttpServlet {
      * the web application directory.
      */
     private static final String SAVE_DIR = "uploadFiles";
+    private static final String WEB_URL = "http://odataxpt.cloudapp.net/green/uploadFiles/";
 
     /**
      * handles file upload
@@ -69,9 +72,12 @@ public class UploadServlet extends HttpServlet {
 
         //call IBM service
 
+        String url = WEB_URL + fileName;
+
+        //Sample images; url https://drive.google.com/open?id=0B7MtYWjTFT4RS0s4RnM1NGtCbDA"
         String ibmService = "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify"
                           + "?api_key=f18a0a0b0c92f0ba4d92aeef7c0b4bb1bbdce959"
-                          + "&url=https://drive.google.com/open?id=0B7MtYWjTFT4RS0s4RnM1NGtCbDA"
+                          + "&url=" + url
                           + "&version=2015-12-02";
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(ibmService);
@@ -85,6 +91,15 @@ public class UploadServlet extends HttpServlet {
             // and ensure it is fully consumed
             //EntityUtils.consume(entity1);
             String result = EntityUtils.toString(entity1);
+
+
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode roots = mapper.readTree(result);
+
+
+
+
             writer.print(result);
         } finally {
             response1.close();

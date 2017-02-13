@@ -2,6 +2,7 @@ package com.iiibc;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -36,14 +37,15 @@ public class AcceptFileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
 
-        String appPath = request.getServletContext().getRealPath("");
+        String appPath = "C:/tinyweb/tinyweb/target/tinyweb-1.0-SNAPSHOT";
+                //request.getServletContext().getRealPath("");
         // constructs path of the directory to save uploaded file
         String savePath = appPath + File.separator + SAVE_DIR;
 
         response.setContentType("text/html;charset=UTF-8");
 
         // Create path components to save the file
-        final String path = request.getParameter("destination");
+        //final String path = request.getParameter("destination");
         //final Part filePart = request.getPart("file");
         final String fileName = Calendar.getInstance().getTimeInMillis() + ".jpg";
 
@@ -54,8 +56,8 @@ public class AcceptFileServlet extends HttpServlet {
         try {
             out = new FileOutputStream(new File(savePath + File.separator
                     + fileName));
-            filecontent = request.getInputStream();
-
+            //filecontent = .
+             filecontent = new ReaderInputStream(request.getReader());
             int read = 0;
             final byte[] bytes = new byte[1024];
 
