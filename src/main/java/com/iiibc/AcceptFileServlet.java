@@ -57,7 +57,7 @@ public class AcceptFileServlet extends HttpServlet {
             out = new FileOutputStream(new File(savePath + File.separator
                     + fileName));
             //filecontent = .
-             filecontent = new ReaderInputStream(request.getReader());
+             filecontent = request.getInputStream(); //new ReaderInputStream(request.getReader());
             int read = 0;
             final byte[] bytes = new byte[1024];
 
